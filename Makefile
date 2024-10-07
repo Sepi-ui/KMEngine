@@ -81,7 +81,7 @@ test: $(TEST_TARGET)
 # Build the test file
 $(TEST_TARGET): $(TEST_SRC)
 	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) $(TEST_SRC) -o $(TEST_TARGET) $(LDFLAGS)
+	$(CC) $(CFLAGS) -Iinclude/ecs $(SRC) $(TEST_SRC) -o $(TEST_TARGET) $(LDFLAGS) 
 
 #Cleanup
 
