@@ -42,7 +42,7 @@ endif
 # Platform-specific flags for SDL2 and OpenGL  /nothing is tested
 ifeq ($(PLATFORM),windows)
   CFLAGS += -DPLATFORM_WINDOWS -I/ucrt64/include/SDL3 -I/ucrt64/include/GL -I/ucrt64/include
-  LDFLAGS = $(LDFLAGS_COMMON) -lSDL3 -lopengl32 -lglu32 -lglew32 -lopengl32
+  LDFLAGS = $(LDFLAGS_COMMON) -lSDL3 -lpng   
 
 else ifeq ($(PLATFORM),linux)
   CFLAGS += -DPLATFORM_LINUX `sdl3-config --cflags`
