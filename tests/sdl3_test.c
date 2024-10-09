@@ -27,10 +27,6 @@ int main (int argc, char* argv[]) {
 	};
 
 
-	//Create entity
-	Entity badge = createEntity();
-
-
 
 	renderer = SDL_CreateRenderer(window, NULL);
 	if (renderer == NULL) {
@@ -39,18 +35,20 @@ int main (int argc, char* argv[]) {
 	};
 	SDL_Log("SDL3 initialized");
 
-	SDL_Surface* badgeSurface = SDL_LoadBMP("tests/assets/badge.bmp");
-	if (!badgeSurface) {
-	printf("Error loading BMP\n");
-	return -3;
-	};
-	SDL_Texture* badgeTexture = SDL_CreateTextureFromSurface(renderer, badgeSurface);
 
 	// Define source and destination rectangles (for positioning and sprite rendering)
 	SDL_Rect srcRect = {0, 0, 32, 32};  // Entire image or portion of sprite sheet
-	SDL_Rect dstRect = {100, 100, 64, 64};  // On-screen position and size
+	SDL_Rect dstRect = {0, 0, 64, 64};  // On-screen position and size
 
+	//Create entity
+	Entity badge = createEntity();
+	add_position_component(badge, 40, 40);
+	add_velocity_component(badge, 100, 100);
+	//Load texture and add to Entity
+	SDL_Texture* badgeTexture = load_texture(renderer, "tests/assets/badge.bmp");
 	add_texture_component(badge, badgeTexture, srcRect, dstRect);
+
+
 
 	SDL_Event event;
 
@@ -68,13 +66,13 @@ int main (int argc, char* argv[]) {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0xff, 0xff);
 	SDL_RenderClear(renderer);
 
+	movement_system(0.016);
 	//Draw here
 	render_system(renderer);
 
-
 	
 	SDL_RenderPresent(renderer);
-	SDL_Delay(1000);
+	SDL_Delay(16);
 
 	};
 

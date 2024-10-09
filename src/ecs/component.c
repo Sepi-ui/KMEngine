@@ -8,17 +8,24 @@ VelocityComponent velocity_components[MAX_ENTITIES];
 static TextureComponent textures[MAX_ENTITIES];
 static bool has_texture[MAX_ENTITIES] = {false};
 
-
 // Add position component to an entity
 void add_position_component(Entity entity, float x, float y) {
     position_components[entity].x = x;
     position_components[entity].y = y;
 }
 
+PositionComponent* get_position_component(Entity entity) {
+return &position_components[entity];
+}
+
 // Add velocity component to an entity
 void add_velocity_component(Entity entity, float vx, float vy) {
     velocity_components[entity].vx = vx;
     velocity_components[entity].vy = vy;
+}
+
+VelocityComponent* get_velocity_component(Entity entity) {
+return &velocity_components[entity];
 }
 
 void add_texture_component(Entity entity, SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect) {

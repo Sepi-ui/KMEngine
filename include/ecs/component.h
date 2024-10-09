@@ -27,7 +27,9 @@ extern PositionComponent position_components[MAX_ENTITIES];
 extern VelocityComponent velocity_components[MAX_ENTITIES];
 
 void add_position_component(Entity entity, float x, float y);
+PositionComponent* get_position_component(Entity entity);
 void add_velocity_component(Entity entity, float vx, float vy);
+VelocityComponent* get_velocity_component(Entity entity);
 
 void add_texture_component(Entity entity, SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect);
 TextureComponent* get_texture_component(Entity entity);

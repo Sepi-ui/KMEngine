@@ -25,8 +25,10 @@ void movement_system(float deltaTime) {
 void render_system(SDL_Renderer* renderer) {
 	for (int i = 0; i < MAX_ENTITIES; i++) {
 	TextureComponent* textureComp = get_texture_component(i);
+	PositionComponent* posComp = get_position_component(i);
 	if (textureComp) {
 		//Convert int Data to floating Point for Rendering
+	
 		SDL_FRect srcFRect = {
 	
 		(float)textureComp->srcRect.x,
@@ -34,52 +36,39 @@ void render_system(SDL_Renderer* renderer) {
 		(float)textureComp->srcRect.w,
 		(float)textureComp->srcRect.h,
 		};
+	if (posComp)
+	printf("loaded position from component");
+	SDL_FRect dstFRect = {
+	(float)posComp->x,
+	(float)posComp->y,
+	textureComp->dstRect.w,
+	textureComp->dstRect.h,
+	};
+	//printf("Entity %d position: (%f, %f)\n", i, posComp->x, posComp->y);
 
-		SDL_FRect dstFRect = {
 	
-		(float)textureComp->srcRect.x,
-		(float)textureComp->srcRect.y,
-		(float)textureComp->srcRect.w,
-		(float)textureComp->srcRect.h,
-		};
-
-
 		SDL_RenderTexture(renderer, textureComp->texture, &srcFRect, &dstFRect);
 		};
 	
 	};
 }
-/*
+
 SDL_Texture* load_texture(SDL_Renderer* renderer, const char* file) {
 
-	//Load file into Memory
-	size_t filesize;
-	void* fileData = SDL_LoadFile(file, &filesize);
-	if (!fileData) {
-        	printf("Could not load file: %s\n", SDL_GetError());
-        	return NULL;
-    	}
-
-	//Create a surface from the file data
-	SDL_Surface* surface = SDL_CreateSurface(fileData, filesize);
-
+	SDL_Surface* surface = SDL_LoadBMP(file);
 	if (!surface) {
-	fatal_log("Could not Load File");
-	SDL_free(fileData);
-	return NULL;
+	printf("Error loading BMP\n");
+	return NULL; 
 	};
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 	if (!texture) {
-	fatal_log("Could not load File into memory");
+	printf("Error loading Texture from surface");
 	SDL_DestroySurface(surface);
-	SDL_free(fileData);
 	return NULL;
 	};
 
 	SDL_DestroySurface(surface);
-	SDL_free(fileData);
     return texture;
 }
-*/
+
