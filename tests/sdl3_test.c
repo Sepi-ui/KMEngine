@@ -1,6 +1,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <png.h>
 #include "../include/ecs/entity.h"
 #include "../include/ecs/component.h"
 #include "../include/ecs/system.h"
@@ -20,7 +21,7 @@ int main (int argc, char* argv[]) {
 	};
 
 	window = SDL_CreateWindow("SDL3 My first Window", 800, 600, 0);
-	if (window = NULL) {
+	if (window == NULL) {
 	SDL_Log("SDL_CreateWindow error %s", SDL_GetError());
 	return -2;
 	};
@@ -38,8 +39,12 @@ int main (int argc, char* argv[]) {
 	};
 	SDL_Log("SDL3 initialized");
 
-
-	SDL_Texture* badgeTexture = load_texture(renderer, "../../../badge.bmp");
+	SDL_Surface* badgeSurface = SDL_LoadBMP("tests/assets/badge.bmp");
+	if (!badgeSurface) {
+	printf("Error loading BMP\n");
+	return -3;
+	};
+	SDL_Texture* badgeTexture = SDL_CreateTextureFromSurface(renderer, badgeSurface);
 
 	// Define source and destination rectangles (for positioning and sprite rendering)
 	SDL_Rect srcRect = {0, 0, 32, 32};  // Entire image or portion of sprite sheet

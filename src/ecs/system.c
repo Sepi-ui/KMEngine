@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "system.h"
-#include "entity.h"
-#include "component.h"
+#include "ecs/system.h"
+#include "ecs/entity.h"
+#include "ecs/component.h"
 #include "logIt.h"
 
 #include <SDL3/SDL.h>
@@ -26,12 +26,30 @@ void render_system(SDL_Renderer* renderer) {
 	for (int i = 0; i < MAX_ENTITIES; i++) {
 	TextureComponent* textureComp = get_texture_component(i);
 	if (textureComp) {
-		SDL_RenderTexture(renderer, textureComp->texture, &textureComp->srcRect, &textureComp->dstRect);
+		//Convert int Data to floating Point for Rendering
+		SDL_FRect srcFRect = {
+	
+		(float)textureComp->srcRect.x,
+		(float)textureComp->srcRect.y,
+		(float)textureComp->srcRect.w,
+		(float)textureComp->srcRect.h,
+		};
+
+		SDL_FRect dstFRect = {
+	
+		(float)textureComp->srcRect.x,
+		(float)textureComp->srcRect.y,
+		(float)textureComp->srcRect.w,
+		(float)textureComp->srcRect.h,
+		};
+
+
+		SDL_RenderTexture(renderer, textureComp->texture, &srcFRect, &dstFRect);
 		};
 	
 	};
 }
-
+/*
 SDL_Texture* load_texture(SDL_Renderer* renderer, const char* file) {
 
 	//Load file into Memory
@@ -64,4 +82,4 @@ SDL_Texture* load_texture(SDL_Renderer* renderer, const char* file) {
 	SDL_free(fileData);
     return texture;
 }
-
+*/

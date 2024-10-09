@@ -1,4 +1,4 @@
-#include "entity.h"
+#include "ecs/entity.h"
 
 static bool entity_alive[MAX_ENTITIES] = {false};  // Track if an entity is alive or not
 

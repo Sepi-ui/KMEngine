@@ -1,5 +1,5 @@
-#include "component.h"
-#include "entity.h"
+#include "ecs/component.h"
+#include "ecs/entity.h"
 // Component arrays (statically sized for all possible entities)
 PositionComponent position_components[MAX_ENTITIES];
 VelocityComponent velocity_components[MAX_ENTITIES];

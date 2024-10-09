@@ -12,7 +12,7 @@ void movement_system(float deltaTime);
 void render_system(SDL_Renderer* renderer);
 
 // Load Textures
-SDL_Texture* load_texture(SDL_Renderer*, const char* file);
+//SDL_Texture* load_texture(SDL_Renderer*, const char* file);
 
 #endif // SYSTEM_H
 
