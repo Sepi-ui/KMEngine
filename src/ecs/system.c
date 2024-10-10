@@ -23,10 +23,12 @@ void movement_system(float deltaTime) {
 //Rendering System
 
 void render_system(SDL_Renderer* renderer) {
+	SDL_Rect currentViewport;
+	SDL_GetRenderViewport(renderer, &currentViewport);
 	for (int i = 0; i < MAX_ENTITIES; i++) {
 	TextureComponent* textureComp = get_texture_component(i);
 	PositionComponent* posComp = get_position_component(i);
-	if (textureComp) {
+	if (textureComp && posComp) {
 		//Convert int Data to floating Point for Rendering
 	
 		SDL_FRect srcFRect = {
@@ -36,14 +38,14 @@ void render_system(SDL_Renderer* renderer) {
 		(float)textureComp->srcRect.w,
 		(float)textureComp->srcRect.h,
 		};
-	if (posComp)
-	printf("loaded position from component");
-	SDL_FRect dstFRect = {
-	(float)posComp->x,
-	(float)posComp->y,
-	textureComp->dstRect.w,
-	textureComp->dstRect.h,
-	};
+
+		SDL_FRect dstFRect;
+		dstFRect = (SDL_FRect){
+		(float)posComp->x - currentViewport.x,
+		(float)posComp->y - currentViewport.y,
+		textureComp->dstRect.w,
+		textureComp->dstRect.h,
+		};
 	//printf("Entity %d position: (%f, %f)\n", i, posComp->x, posComp->y);
 
 	
