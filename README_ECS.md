@@ -1,24 +1,36 @@
 ### Entity Component System
 
 ## Table of Content
-1. [Entities]
-(#entities)
-2. [Components]
-(#components)
 
-## Entities
+1. [Entity](#entity)
+2. [Component](#components)
+3. [System](#system)
+
+### Data structures
+
+1. [Entity Data](#entity-data)
+2. [Component Data](#component-data)
+3. [System Data](#system-data)
+
+### API's
+
+1. [Entity API](#entity-api)
+2. [Component API](#component-api)
+3. [System API](#system-api)
+
+## Entity
 
 - Entities are just IDs that are used to Track Components
 
-## Components
+## Component
 
 - Components are "Data" that can be assigned to Entities, e.g. Velocity or Position
 
-## Systems
+## System
 
 - Systems do logic with Entities, e.g. MovementSystem or DamageSystem
 
-## Entities Data
+## Entity Data
 
 ```c
 #define MAX_ENTITIES 1000 //Define Max Entities
@@ -58,7 +70,7 @@ SDL_Rect dstRect
 }TextureComponent
 ```
 
-## Components API
+## Component API
 
 Add position Component
 `add_position_component(Entity entity, float x, float y)`
