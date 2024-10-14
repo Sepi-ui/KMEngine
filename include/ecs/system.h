@@ -6,13 +6,13 @@
 #include "component.h"
 
 // Movement system: updates the position of entities with both position and velocity components
-void movement_system(float deltaTime);
+void ECS_movement_system(float deltaTime);
 
 //Rendering System
-void render_system(SDL_Renderer* renderer);
+void ECS_render_system(SDL_Renderer* renderer);
 
 // Load Textures
-SDL_Texture* load_texture(SDL_Renderer*, const char* file);
+SDL_Texture* ECS_load_texture(SDL_Renderer*, const char* file);
 
 #endif // SYSTEM_H
 

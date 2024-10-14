@@ -6,6 +6,7 @@
 #include "../include/ecs/component.h"
 #include "../include/ecs/system.h"
 #include "../include/windowHandling.h"
+#include "../include/logit.h"
 
 
 int main (int argc, char* argv[]) {
@@ -38,17 +39,20 @@ int main (int argc, char* argv[]) {
 
 
 	// Define source and destination rectangles (for positioning and sprite rendering)
-
+	ECS_init_components();
 	//Create entity
-	Entity badge = createEntity();
-	add_position_component(badge, 40, 40);
-	add_velocity_component(badge, 100, 100);
+	ECS_Entity badge = ECS_create_entity();
+	trace_log("created Entity");
+	ECS_add_position_component(badge, 40, 40);
+	trace_log("added Position Component");
+	ECS_add_velocity_component(badge, 100, 100);
+	trace_log("added Velocity Component");
 	SDL_Rect srcRect = {0, 0, 32, 32};  // Entire image or portion of sprite sheet
 	SDL_Rect dstRect = {0, 0, 64, 64};  // Position, last 2 define expansion
 	//Load texture and add to Entity
-	SDL_Texture* badgeTexture = load_texture(renderer, "tests/assets/badge.bmp");
-	add_texture_component(badge, badgeTexture, srcRect, dstRect);
-
+	SDL_Texture* badgeTexture = ECS_load_texture(renderer, "tests/assets/badge.bmp");
+	ECS_add_texture_component(badge, badgeTexture, srcRect, dstRect);
+	trace_log("Created and loaded Entity");
 
 
 	SDL_Event event;
@@ -88,9 +92,9 @@ int main (int argc, char* argv[]) {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0xff, 0xff);
 	SDL_RenderClear(renderer);
 
-	movement_system(0.016);
+	ECS_movement_system(0.016);
 	//Draw here
-	render_system(renderer);
+	ECS_render_system(renderer);
 
 	
 	SDL_RenderPresent(renderer);
@@ -102,6 +106,7 @@ int main (int argc, char* argv[]) {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
+	ECS_destroy_entity(badge);
 return 0;
 };
 

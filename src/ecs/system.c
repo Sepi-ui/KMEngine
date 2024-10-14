@@ -10,24 +10,28 @@
 #include <png.h>
 
 // Movement system: updates entities' positions based on their velocity
-void movement_system(float deltaTime) {
-    for (Entity entity = 0; entity < MAX_ENTITIES; entity++) {
-        if (isEntityAlive(entity)) {
-            // Update only if the entity has both position and velocity components
-            position_components[entity].x += velocity_components[entity].vx * deltaTime;
-            position_components[entity].y += velocity_components[entity].vy * deltaTime;
+void ECS_movement_system(float deltaTime) {
+
+	ECS_PositionComponent* position_component = ECS_get_position_component();
+	ECS_VelocityComponent* velocity_component = ECS_get_velocity_component();
+
+    for (ECS_Entity entity = 0; entity < MAX_ENTITIES; entity++) {
+       if (ECS_is_entity_alive(entity)) {
+       // Update only if the entity has both position and velocity components
+       position_component[entity].x += velocity_component[entity].vx * deltaTime;
+       position_component[entity].y += velocity_component[entity].vy * deltaTime;
         }
     }
 }
 
 //Rendering System
 
-void render_system(SDL_Renderer* renderer) {
+void ECS_render_system(SDL_Renderer* renderer) {
 	SDL_Rect currentViewport;
 	SDL_GetRenderViewport(renderer, &currentViewport);
 	for (int i = 0; i < MAX_ENTITIES; i++) {
-	TextureComponent* textureComp = get_texture_component(i);
-	PositionComponent* posComp = get_position_component(i);
+	ECS_TextureComponent* textureComp = ECS_get_texture_component(i);
+	ECS_PositionComponent* posComp = ECS_get_position_component(i);
 	if (textureComp && posComp) {
 		//Convert int Data to floating Point for Rendering
 	
@@ -55,7 +59,7 @@ void render_system(SDL_Renderer* renderer) {
 	};
 }
 
-SDL_Texture* load_texture(SDL_Renderer* renderer, const char* file) {
+SDL_Texture* ECS_load_texture(SDL_Renderer* renderer, const char* file) {
 
 	SDL_Surface* surface = SDL_LoadBMP(file);
 	if (!surface) {

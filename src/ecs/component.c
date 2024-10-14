@@ -1,41 +1,69 @@
+#include <stdlib.h>
 #include "ecs/component.h"
 #include "ecs/entity.h"
-// Component arrays (statically sized for all possible entities)
-PositionComponent position_components[MAX_ENTITIES];
-VelocityComponent velocity_components[MAX_ENTITIES];
+#include "logIt.h"
+
+// Component arrays
+ECS_PositionComponent* position_components;
+ECS_VelocityComponent* velocity_components;
+
 
 //array for Texture data, array for "hasTexture"
-static TextureComponent textures[MAX_ENTITIES];
+ECS_TextureComponent* textures;
 static bool has_texture[MAX_ENTITIES] = {false};
 
+void ECS_init_components() {
+position_components = malloc(MAX_ENTITIES * sizeof(ECS_PositionComponent));
+if (position_components == NULL) {
+	fatal_log("Could not allocate Memory for position_components");
+	};
+
+velocity_components = malloc(MAX_ENTITIES * sizeof(ECS_VelocityComponent));
+if (velocity_components == NULL) {
+	fatal_log("Could not allocate Memory for velocity_components");
+	};
+textures = malloc(MAX_ENTITIES * sizeof(ECS_TextureComponent));
+if (textures == NULL) {
+	fatal_log("Could not allocate Memory for textures");
+	};
+};
+
+
+void free_components() {
+free(position_components);
+free(velocity_components);
+free(textures);
+};
+
+
 // Add position component to an entity
-void add_position_component(Entity entity, float x, float y) {
+void ECS_add_position_component(ECS_Entity entity, float x, float y) {
     position_components[entity].x = x;
     position_components[entity].y = y;
 }
 
-PositionComponent* get_position_component(Entity entity) {
-return &position_components[entity];
+ECS_PositionComponent* ECS_get_position_component() {
+return position_components;
 }
 
 // Add velocity component to an entity
-void add_velocity_component(Entity entity, float vx, float vy) {
+void ECS_add_velocity_component(ECS_Entity entity, float vx, float vy) {
     velocity_components[entity].vx = vx;
     velocity_components[entity].vy = vy;
 }
 
-VelocityComponent* get_velocity_component(Entity entity) {
-return &velocity_components[entity];
+ECS_VelocityComponent* ECS_get_velocity_component() {
+return velocity_components;
 }
 
-void add_texture_component(Entity entity, SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect) {
+void ECS_add_texture_component(ECS_Entity entity, SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect) {
 	textures[entity].texture = texture;
 	textures[entity].srcRect = srcRect;
 	textures[entity].dstRect = dstRect;
 	has_texture[entity] = true;
 }
 
-TextureComponent* get_texture_component(Entity entity) {
+ECS_TextureComponent* ECS_get_texture_component(ECS_Entity entity) {
     if (has_texture[entity]) {
         return &textures[entity];
     }
