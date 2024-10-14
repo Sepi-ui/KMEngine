@@ -1,6 +1,6 @@
 
 #include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
+//#include <SDL3/SDL_main.h>
 #include <png.h>
 #include "../include/ecs/entity.h"
 #include "../include/ecs/component.h"

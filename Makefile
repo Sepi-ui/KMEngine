@@ -8,7 +8,13 @@ BUILD_DIR = build
 LIB_DIR = 
 INCLUDE_DIR = include
 TEST_DIR = tests
+UNIT_TEST_DIR = tests/unit
+ECS_DIR = $(SRC_DIR)/ecs
 
+# ECS source files
+
+ECS_SRC = $(wildcard $(ECS_DIR)/*.c)
+ECS_OBJ = $(ECS_SRC:$(ECS_DIR)/%.c=$(BUILD_DIR)/ecs/%.o)
 #ouput location
 
 TARGET = $(BUILD_DIR)/engine
@@ -17,10 +23,13 @@ TARGET = $(BUILD_DIR)/engine
 TEST_SRC = $(TEST_DIR)/sdl3_test.c
 TEST_TARGET = $(BUILD_DIR)/sdl3_test
 
+#Unit Test
+UNIT_TEST_SRC = $(wildcard $(UNIT_TEST_DIR)/*.c)
+UNIT_TEST_TARGET = $(BUILD_DIR)/unit_test
 
 #Default flags
 CFLAGS = -Iinclude -Wall -g
-LDFLAGS =
+LDFLAGS_COMMON =
 
 # Platform detection
 # The default is based on system detection, but users can override it by setting PLATFORM=<windows|linux|macos>
@@ -73,15 +82,33 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# Compile ECS object files
+$(BUILD_DIR)/ecs/%.o: $(ECS_DIR)/%.c
+	@echo "Compiling $< (ECS)..."
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 # Subroutine for running tests
 test: $(TEST_TARGET)
-	@echo "Running Glew test..."
+	@echo "Running sdl3_test..."
 	./$(TEST_TARGET)
 
 # Build the test file
 $(TEST_TARGET): $(TEST_SRC)
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -Iinclude/ecs $(SRC) $(TEST_SRC) -o $(TEST_TARGET) $(LDFLAGS) 
+
+
+# Subroutine for unit Tests
+unit_test: $(UNIT_TEST_TARGET) 
+	@echo "Running Unit tests..."
+	./$(UNIT_TEST_TARGET)
+
+#Build unit tests
+$(UNIT_TEST_TARGET): $(UNIT_TEST_SRC) $(ECS_OBJ)
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(UNIT_TEST_SRC) src/logIt.c $(ECS_OBJ) -Wl,-subsystem,console $(LDFLAGS)  -o $(UNIT_TEST_TARGET) 
+
 
 #Cleanup
 
