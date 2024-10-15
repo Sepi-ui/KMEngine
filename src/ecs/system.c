@@ -7,7 +7,6 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_render.h>
-#include <png.h>
 
 // Movement system: updates entities' positions based on their velocity
 void ECS_movement_system(float deltaTime) {

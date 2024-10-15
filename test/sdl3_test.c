@@ -1,17 +1,22 @@
 
+#include <stdio.h>
 #include <SDL3/SDL.h>
-//#include <SDL3/SDL_main.h>
-#include <png.h>
+#include <SDL3/SDL_main.h>
 #include "../include/ecs/entity.h"
 #include "../include/ecs/component.h"
 #include "../include/ecs/system.h"
 #include "../include/windowHandling.h"
-#include "../include/logit.h"
+#include "../include/logIt.h"
 
 
 int main (int argc, char* argv[]) {
 
-
+printf("Available video drivers:\n");
+		        for (int i = 0; i < SDL_GetNumVideoDrivers(); ++i) {
+				        printf("%s\n", SDL_GetVideoDriver(i));
+					    }
+			    return 0;
+	
 
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;

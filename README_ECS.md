@@ -36,50 +36,52 @@
 #define MAX_ENTITIES 1000 //Define Max Entities
 ```
 ```c
-typedef int Entity;  //Just an ID
+typedef int ECS_Entity;  //Just an ID
 ```
 
 ## Entity API
 
 Create entity, get ID returned
-`createEntity();`
+
+`ECS_create_entity();`
 
 Destroy entity
-`destroyEntity(Entity entity);`
+
+`ECS_destroy_entity(ECS_Entity entity);`
 
 Check if entity is alive, returns Boolean
-`isEntityAlive(Entity entity);`
+`ECS_is_entity_alive(ECS_Entity entity);`
 
 ## Component Data
 
 ```c
 struct {
 float x, y;
-}PositionComponent
+}ECS_PositionComponent
 ```
 ```c
 struct {
 float vx, vy;
-}VelocityComponent
+}ECS_VelocityComponent
 ```
 ```c
 struct {
 SDL_Texture* texture;
 SDL_Rect srcRect
 SDL_Rect dstRect
-}TextureComponent
+}ECS_TextureComponent
 ```
 
 ## Component API
 
 Add position Component
-`add_position_component(Entity entity, float x, float y)`
+`ECS_add_position_component(ECS_Entity entity, float x, float y)`
 
 Add velocity Component
-`add_velocity_coponent(Entity entity, float vx, float vy)
+`ECS_add_velocity_coponent(ECS_Entity entity, float vx, float vy)`
 
 Add texture Component
-`add_texture_component(Entity entity, SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect);`
+`ECS_add_texture_component(Entity entity, SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect);`
 ## System Data
 
 
@@ -88,9 +90,9 @@ Add texture Component
 Update Location depending on position and velocity Component, pass Refresh rate
 `movementSystem(float deltaTime);`
 
-Render every Entity if it has Texture
-`render_texture(SDL_Renderer* renderer);
+Render every Entity with Texture
+`ECS_render_texture(SDL_Renderer* renderer);`
 
 Load Texture from .bmp File
-`loadTexture(SDL_Renderer* renderer, const char* file);`
+`ECS_load_texture(SDL_Renderer* renderer, const char* file);`
 

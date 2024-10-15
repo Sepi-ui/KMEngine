@@ -27,7 +27,7 @@ void test_add_and_get_position_component() {
 	printf("test_add_and_get_position_component passed!\n");
 
 	// Cleanup
-	free_components();
+	ECS_free_components();
 }
 
 

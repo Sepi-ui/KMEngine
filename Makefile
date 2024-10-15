@@ -7,8 +7,8 @@ SRC_DIR = src
 BUILD_DIR = build
 LIB_DIR = 
 INCLUDE_DIR = include
-TEST_DIR = tests
-UNIT_TEST_DIR = tests/unit
+TEST_DIR = test
+UNIT_TEST_DIR = test/unit
 ECS_DIR = $(SRC_DIR)/ecs
 
 # ECS source files
@@ -54,8 +54,8 @@ ifeq ($(PLATFORM),windows)
   LDFLAGS = $(LDFLAGS_COMMON) -lSDL3 -lpng   
 
 else ifeq ($(PLATFORM),linux)
-  CFLAGS += -DPLATFORM_LINUX `sdl3-config --cflags`
-  LDFLAGS = $(LDFLAGS_COMMON) `sdl3-config --libs` -lGL -lGLEW
+  CFLAGS += -DPLATFORM_LINUX -I/include/SDL3 -I/include/ecs -I/include
+  LDFLAGS = $(LDFLAGS_COMMON) -lSDL3 
 
 else ifeq ($(PLATFORM),macos)
   CFLAGS += -DPLATFORM_MACOS -I/usr/local/include/SDL3
