@@ -2,7 +2,6 @@
 #define COMPONENT_H
 #include <SDL3/SDL.h>
 #include "entity.h"
-#define MAX_ENTITIES 1000
 
 
 //Position component
@@ -22,9 +21,6 @@ typedef struct {
 	SDL_Rect dstRect;
 }ECS_TextureComponent;
 
-// Arrays to hold components for each entity
-//extern PositionComponent position_components[MAX_ENTITIES];
-//extern VelocityComponent velocity_components[MAX_ENTITIES];
 
 void ECS_init_components();
 void ECS_free_components();

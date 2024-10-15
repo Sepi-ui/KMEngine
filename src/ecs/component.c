@@ -2,7 +2,7 @@
 #include "ecs/component.h"
 #include "ecs/entity.h"
 #include "logIt.h"
-
+#define MAX_ENTITIES 1000000
 // Component arrays
 ECS_PositionComponent* position_components;
 ECS_VelocityComponent* velocity_components;
@@ -29,7 +29,7 @@ if (textures == NULL) {
 };
 
 
-void free_components() {
+void ECS_free_components() {
 free(position_components);
 free(velocity_components);
 free(textures);

@@ -16,6 +16,7 @@ void initializeLogStreams() {
 	log_stream[TRACE_LOG] = stderr;
 	log_stream[INFO_LOG] = stdout;
 	log_stream[PERFORMANCE_LOG] = stderr;
+	log_stream[UNIT_LOG] = stdout;
 }
 
 void log_message(FILE* stream, const char* logType, const char* format, va_list args) {
@@ -74,6 +75,14 @@ void performance_log(const char* format, ...) {
 	log_message(log_stream[PERFORMANCE_LOG], "[PERFORMANCE]", format, args);
 	va_end(args);
 }
+
+void unit_log(const char* format, ...) {
+	va_list args;
+	va_start(args, format);
+	log_message(log_stream[UNIT_LOG], "[UNIT]", format, args);
+	va_end(args);
+}
+
 void setStream(LogType type, FILE* stream) {
 if (type >= COUNT_LOG) {
 	fprintf(stderr, "in setStream: Invalid Type passed"); 

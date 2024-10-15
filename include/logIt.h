@@ -10,6 +10,7 @@ typedef enum {
 	TRACE_LOG,
 	INFO_LOG,
 	PERFORMANCE_LOG,
+	UNIT_LOG,
 	COUNT_LOG
 }LogType;
 
@@ -22,7 +23,7 @@ void debug_log(const char* format, ...);
 void trace_log(const char* format, ...);
 void info_log(const char* format, ...);
 void performance_log(const char* format, ...);
-
+void unit_log(const char* format, ...);
 void setStream(LogType type, FILE* stream);
 
 #endif

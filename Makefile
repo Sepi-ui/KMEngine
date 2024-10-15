@@ -107,7 +107,7 @@ unit_test: $(UNIT_TEST_TARGET)
 #Build unit tests
 $(UNIT_TEST_TARGET): $(UNIT_TEST_SRC) $(ECS_OBJ)
 	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) $(UNIT_TEST_SRC) src/logIt.c $(ECS_OBJ) -Wl,-subsystem,console $(LDFLAGS)  -o $(UNIT_TEST_TARGET) 
+	$(CC) $(CFLAGS) $(UNIT_TEST_SRC) src/logIt.c $(ECS_OBJ)  $(LDFLAGS)  -o $(UNIT_TEST_TARGET) 
 
 
 #Cleanup
