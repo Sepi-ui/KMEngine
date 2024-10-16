@@ -74,11 +74,23 @@ SDL_Rect dstRect
 
 ## Component API
 
+Init Component Data
+`ECS_init_components();`
+
+Free Component Data
+`ECS_free_components();
+
 Add position Component
 `ECS_add_position_component(ECS_Entity entity, float x, float y)`
 
+Get position Component
+`ECS_get_position_component();`
+
 Add velocity Component
 `ECS_add_velocity_coponent(ECS_Entity entity, float vx, float vy)`
+
+Get velocity Component
+`ECS_get_velocity_component();
 
 Add texture Component
 `ECS_add_texture_component(Entity entity, SDL_Texture* texture, SDL_Rect srcRect, SDL_Rect dstRect);`

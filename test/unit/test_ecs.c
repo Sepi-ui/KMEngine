@@ -1,5 +1,6 @@
 #define SDL_MAIN_HANDLED
 #include <assert.h>
+#include <time.h>
 #include <stdio.h>
 #include "ecs/component.h"
 #include "ecs/system.h"
@@ -114,12 +115,28 @@ void test_max_entities() {
 
 
 int main (int argc, char* argv[])  {
+
+struct timespec start, end;
 initializeLogStreams();
 test_add_and_get_position_component();
 test_add_and_get_velocity_component();
 test_entity_alive();
 test_movement_system();
+//Get starting time
+timespec_get(&start, TIME_UTC);
 test_max_entities();
+//Get ending time
+timespec_get(&end, TIME_UTC);
+// Get time difference
+long seconds = end.tv_sec - start.tv_sec;
+long nanoseconds = end.tv_nsec - start.tv_nsec;
+if (nanoseconds < 0) {
+	seconds -= 1;
+	nanoseconds += 100000000000;
+	};
+if (seconds > 0) {
+	performance_log("Performance of test_max_entities(); = %ld", seconds);
+	};
 info_log("Test Passed");
 return 0;
 }
