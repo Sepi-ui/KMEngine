@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define MAX_ENTITIES 1000000 //Define Max Entities
+#define MAX_ENTITIES 100000 //Define Max Entities
 
 typedef int ECS_Entity;  //Just an ID
 

@@ -135,7 +135,7 @@ if (nanoseconds < 0) {
 	nanoseconds += 100000000000;
 	};
 if (seconds > 0) {
-	performance_log("Performance of test_max_entities(); = %ld", seconds);
+	performance_log("test_max_entities(); Completed in :%ld.%09ld\n", seconds, nanoseconds);
 	};
 info_log("Test Passed");
 return 0;

@@ -9,7 +9,9 @@ LIB_DIR =
 INCLUDE_DIR = include
 TEST_DIR = test
 UNIT_TEST_DIR = test/unit
+PERFORMANCE_TEST_DIR = test/performance
 ECS_DIR = $(SRC_DIR)/ecs
+
 
 # ECS source files
 
@@ -26,6 +28,10 @@ TEST_TARGET = $(BUILD_DIR)/sdl3_test
 #Unit Test
 UNIT_TEST_SRC = $(wildcard $(UNIT_TEST_DIR)/*.c)
 UNIT_TEST_TARGET = $(BUILD_DIR)/unit_test
+
+#Performance Test
+PERFORMANCE_TEST_SRC = $(wildcard $(PERFORMANCE_TEST_DIR)/*.c)
+PERFORMANCE_TEST_TARGET = $(BUILD_DIR)/performance_test
 
 #Default flags
 CFLAGS = -Iinclude -Wall -g
@@ -55,7 +61,7 @@ ifeq ($(PLATFORM),windows)
 
 else ifeq ($(PLATFORM),linux)
   CFLAGS += -DPLATFORM_LINUX -I/include/SDL3 -I/include/ecs -I/include
-  LDFLAGS = $(LDFLAGS_COMMON) -lSDL3 
+  LDFLAGS = $(LDFLAGS_COMMON) -lSDL3 -L/usr/local/lib64
 
 else ifeq ($(PLATFORM),macos)
   CFLAGS += -DPLATFORM_MACOS -I/usr/local/include/SDL3
@@ -109,7 +115,16 @@ $(UNIT_TEST_TARGET): $(UNIT_TEST_SRC) $(ECS_OBJ)
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) $(UNIT_TEST_SRC) src/logIt.c $(ECS_OBJ)  $(LDFLAGS)  -o $(UNIT_TEST_TARGET) 
 
+#Subroutine for Performance Tests
+performance_test: $(PERFORMANCE_TEST_TARGET)
+	@echo "Running Performance tests..."
+	./$(PERFORMANCE_TEST_TARGET)
 
+#Build Performance Test
+$(PERFORMANCE_TEST_TARGET): $(PERFORMANCE_TEST_SRC) $(ECS_OBJ)
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(PERFORMANCE_TEST_SRC) src/logIt.c $(ECS_OBJ) $(LDFLAGS) -o $(PERFORMANCE_TEST_TARGET)
+	
 #Cleanup
 
 clean:

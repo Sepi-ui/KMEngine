@@ -2,7 +2,7 @@
 #include "ecs/component.h"
 #include "ecs/entity.h"
 #include "logIt.h"
-#define MAX_ENTITIES 1000000
+#define MAX_ENTITIES 100000
 // Component arrays
 ECS_PositionComponent* position_components;
 ECS_VelocityComponent* velocity_components;
