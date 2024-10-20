@@ -5,7 +5,7 @@
 #include "ecs/component.h"
 #include "ecs/system.h"
 #include "ecs/entity.h"
-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#include "logIt.h"
+#include "logIt.h"
 #include <SDL3/SDL.h>
 
 

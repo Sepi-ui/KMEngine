@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include <string.h>
+#include <stdlib.h>
 #include "logIt.h"
 
 //Define stream Array
@@ -92,4 +93,63 @@ if (stream != NULL) {
 	}else {
 	log_stream[type] = stderr;
 	};
+}
+
+LogBuffer* initialize_log_buffer(size_t initialSize) {
+LogBuffer* buffer = malloc(sizeof(LogBuffer));
+if (buffer == NULL) {
+	error_log("could not initialize LogBuffer\n");
+	return NULL;
+	};
+buffer->data = malloc(initialSize);
+if (buffer->data == NULL) {
+	error_log("could not allocate memory for data in LogBuffer\n");
+	};
+buffer->size = initialSize;
+buffer->used = 0;
+return buffer;
+}
+
+void buffer_log(LogBuffer* buffer, const char* format) {
+va_list args;
+va_start(args, format);
+
+int newEntrySize = vsnprintf(NULL, 0, format, args) + 1;
+va_end(args);
+
+if (buffer->used + newEntrySize > buffer->size) {
+	size_t newSize = buffer->size * 2;
+	while (newSize < buffer->used + newEntrySize) {
+		newSize *= 2;
+		};
+	char* newData = realloc(buffer->data, newSize);
+	if (newData == NULL) {
+		error_log("could not resize LogBuffer->data");
+		return;
+		};
+	buffer->data = newData;
+	buffer->size = newSize;
+	};
+
+va_start(args, format);
+vsnprintf(buffer->data + buffer->used, newEntrySize, format, args);
+va_end(args);
+buffer->used += newEntrySize -1;//-1 to remove null terminator
+};
+
+
+void write_buffer_to_file(LogBuffer buffer, const char* filename) {
+
+FILE* file = fopen(filename, "w");
+	if (file == NULL) {
+	error_log("could not open Log file");
+	exit(EXIT_FAILURE);
+	};
+fwrite(buffer->data, 1, buffer->used, file);
+fclose(file);
+}
+
+void free_log_buffer() {
+free(buffer->data);
+free(buffer);
 }

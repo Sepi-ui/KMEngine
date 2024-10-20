@@ -3,10 +3,13 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
+#include <psapi.h>
 #include "ecs/component.h"
 #include "ecs/system.h"
 #include "ecs/entity.h"
 #include "logIt.h"
+#include "../../include/performanceFunctions.h"
 #include <SDL3/SDL.h>
 #define MAX_TESTS 10
 
@@ -32,19 +35,19 @@ if (num_tests < MAX_TESTS) {
 
 void run_selected_test(const char* tokenList, int load, int iteration) {
 char* token = strtok(tokenList, ",");
-if (token != NULL) {
+while (token != NULL) {
 	int index = atoi(token);
 	for (int i = 0; i < num_tests; i++) {
 		if (tests[i].index == index) {
-			info_log("running %s with load: %d, iteration: %d",token[i].name, token[i].load, tests[i].iteration);
+			info_log("running %s with load: %d, iteration: %d\n",tests[i].name, load, iteration);
 			tests[i].run(load, iteration);
-
-			};
+			break;
 		};
+	};
 	token = strtok(NULL, ",");
 
 
-	};
+};
 }
 
 void register_all_tests() {
@@ -61,6 +64,7 @@ void register_all_tests() {
 
 
 int main(int argc, char* argv[]) {
+	initializeLogStreams();
 	    if (argc < 4) {
 		info_log("Usage: %s <test_indices> <load> <iterations>\n", argv[0]);
 		return 1;
