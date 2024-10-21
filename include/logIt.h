@@ -31,7 +31,7 @@ void trace_log(const char* format, ...);
 void info_log(const char* format, ...);
 void performance_log(const char* format, ...);
 void unit_log(const char* format, ...);
-void buffer_log(LogBuffer* buffer, const char* format);
+void buffer_log(LogBuffer* buffer, const char* format, ...);
 void write_buffer_to_file(LogBuffer* buffer, const char* filename);
 void free_log_buffer();
 void setStream(LogType type, FILE* stream);

@@ -110,7 +110,7 @@ buffer->used = 0;
 return buffer;
 }
 
-void buffer_log(LogBuffer* buffer, const char* format) {
+void buffer_log(LogBuffer* buffer, const char* format, ...) {
 va_list args;
 va_start(args, format);
 
@@ -138,7 +138,7 @@ buffer->used += newEntrySize -1;//-1 to remove null terminator
 };
 
 
-void write_buffer_to_file(LogBuffer buffer, const char* filename) {
+void write_buffer_to_file(LogBuffer* buffer, const char* filename) {
 
 FILE* file = fopen(filename, "w");
 	if (file == NULL) {
@@ -149,7 +149,7 @@ fwrite(buffer->data, 1, buffer->used, file);
 fclose(file);
 }
 
-void free_log_buffer() {
+void free_log_buffer(LogBuffer* buffer) {
 free(buffer->data);
 free(buffer);
 }

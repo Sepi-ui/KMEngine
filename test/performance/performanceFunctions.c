@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <windows.h>
-#include <psapi.h>
+#ifdef _WIN32
+	#include <windows.h>
+	#include <psapi.h>
+#endif
 #include "ecs/component.h"
 #include "ecs/system.h"
 #include "ecs/component.h"
@@ -11,6 +13,8 @@
 #define MAX_ENTITIES 100000
 
 void log_memory_usage() {
+// Windows memory usage
+#ifdef _WIN32
     PROCESS_MEMORY_COUNTERS memCounters;
     HANDLE process = GetCurrentProcess(); // Get the handle to the current process
 
@@ -20,6 +24,12 @@ void log_memory_usage() {
     } else {
         error_log("Could not retrieve memory information.\n");
     }
+#elif __linux__
+
+
+#endif
+
+
 }
 
 void rendering_performance_test(int load, int iteration) {

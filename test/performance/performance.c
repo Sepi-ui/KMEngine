@@ -1,10 +1,14 @@
 #define SDL_MAIN_HANDLED
+
+#ifdef _WIN32
+	#include <windows.h>
+	#include <psapi.h>
+#endif
+
 #include <assert.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
-#include <psapi.h>
 #include "ecs/component.h"
 #include "ecs/system.h"
 #include "ecs/entity.h"
