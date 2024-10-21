@@ -12,27 +12,59 @@
 #include "logIt.h"
 #define MAX_ENTITIES 100000
 
-void log_memory_usage() {
+
+typedef struct LogLayout {
+	int index;
+	float frameTime;
+	float memoryUsage;
+	float cpuUsage;
+}LogLayout;
+float get_memory_usage() {
 // Windows memory usage
 #ifdef _WIN32
     PROCESS_MEMORY_COUNTERS memCounters;
     HANDLE process = GetCurrentProcess(); // Get the handle to the current process
 
     if (GetProcessMemoryInfo(process, &memCounters, sizeof(memCounters))) {
-        SIZE_T memoryUsage = memCounters.WorkingSetSize; // Memory usage in bytes
-        info_log("Current Memory Usage: %zu KB\n", memoryUsage / 1024);
+        SIZE_T memoryUsageBytes = memCounters.WorkingSetSize; // Memory usage in bytes
+	//Convert to float
+	float memoryUsageMB = (float)memoryUsageBytes / (1024 * 1024);
+	return memoryUsageMB;
     } else {
         error_log("Could not retrieve memory information.\n");
+	return -1.0f;
     }
 #elif __linux__
+FILE* file = fopen("/proc/self/status", "r");
+if (file == NULL) {
+	error_log("could not open /proc/self/status");
+	return -1.0f;
+	};
+size_t memoryUsageKB = 0;
+char buffer[256];
 
+while (fgets(buffer, sizeof(buffer), file)) {
+	if (scanf(buffer, "VmRSS: %zu kB", &memoryUsageKB) == 1) {
+		break;
+		};
+	};
+	fclose(file);
 
+	float memoryUsageMB = (float)memoryUsageKB / 1024;
+	return memoryUsageMB;
+
+#else
+error_log("unsupported platform.\n");
+return -1.0f;
 #endif
 
 
 }
 
 void rendering_performance_test(int load, int iteration) {
+
+	//declare buffer to write to
+	LogBuffer* buffer = initialize_log_buffer(1024);
 	info_log("running rendering test...");
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
@@ -93,7 +125,7 @@ while (!quit) {
 		};
         
 	clock_gettime(CLOCK_MONOTONIC, &start);
-	log_memory_usage();
+	get_memory_usage();
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	ECS_movement_system(1.0f);
@@ -108,7 +140,8 @@ while (!quit) {
 	elapsedTime += frameTime;
 
 	totalFrameTime += frameTime;
-	info_log("Iteration %d: Frame Time = %f seconds\n", j + 1, frameTime);
+	float memUsage = get_memory_usage();
+	buffer_log(buffer, "Index: %d\t%f\t%f\n", j + 1, frameTime, memUsage);
 	j++;
 	};
 double avgFrameTime = totalFrameTime / iteration;
@@ -127,6 +160,8 @@ SDL_DestroyWindow(window);
 SDL_Quit();
 quit = 1;
 };
+write_buffer_to_file(buffer, "test/performance/performanceLog.txt");
+
 return;
 }
 
