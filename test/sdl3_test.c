@@ -15,7 +15,7 @@ printf("Available video drivers:\n");
 		        for (int i = 0; i < SDL_GetNumVideoDrivers(); ++i) {
 				        printf("%s\n", SDL_GetVideoDriver(i));
 					    }
-			    return 0;
+
 	
 
 	SDL_Window* window = NULL;
@@ -55,7 +55,7 @@ printf("Available video drivers:\n");
 	SDL_Rect srcRect = {0, 0, 32, 32};  // Entire image or portion of sprite sheet
 	SDL_Rect dstRect = {0, 0, 64, 64};  // Position, last 2 define expansion
 	//Load texture and add to Entity
-	SDL_Texture* badgeTexture = ECS_load_texture(renderer, "tests/assets/badge.bmp");
+	SDL_Texture* badgeTexture = ECS_load_texture(renderer, "test/assets/badge.bmp");
 	ECS_add_texture_component(badge, badgeTexture, srcRect, dstRect);
 	trace_log("Created and loaded Entity");
 

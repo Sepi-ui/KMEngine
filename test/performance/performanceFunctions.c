@@ -34,6 +34,7 @@ float get_memory_usage() {
         error_log("Could not retrieve memory information.\n");
 	return -1.0f;
     }
+//Linux memory usage
 #elif __linux__
 FILE* file = fopen("/proc/self/status", "r");
 if (file == NULL) {
@@ -105,12 +106,12 @@ void rendering_performance_test(int load, int iteration) {
 	ECS_add_velocity_component(entity, velX, velY);
 
 	SDL_Rect srcRect = {0, 0, 32, 32};  // Entire image or portion of sprite sheet
-	SDL_Rect dstRect = {0, 0, 64, 64};  // Position, last 2 define expansion
+	SDL_Rect dstRect = {posX, posY, 64, 64};  // Position, last 2 define expansion
 	SDL_Texture* entityTexture = ECS_load_texture(renderer, "test/assets/badge.bmp");
 	ECS_add_texture_component(entity, entityTexture, srcRect, dstRect);
 	i++;
 	};
-
+	list_entities();
 	SDL_Event event;
 	//Rendering loop
 	struct timespec start, end;

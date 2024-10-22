@@ -1,6 +1,9 @@
 #ifndef LOGIT_H
 #define LOGIT_H
+#include <stdio.h>
 #include <stdbool.h>
+#include <stddef.h>
+
 
 typedef enum {
 	FATAL_LOG,

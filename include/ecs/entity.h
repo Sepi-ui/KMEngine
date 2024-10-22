@@ -10,5 +10,6 @@ typedef int ECS_Entity;  //Just an ID
 ECS_Entity ECS_create_entity();
 void ECS_destroy_entity(ECS_Entity entity);
 bool ECS_is_entity_alive(ECS_Entity entity);
+void list_entities();
 
 #endif

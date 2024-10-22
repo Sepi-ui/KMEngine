@@ -1,4 +1,5 @@
 #include "ecs/entity.h"
+#include "logIt.h"
 
 static bool entity_alive[MAX_ENTITIES] = {false};  // Track if an entity is alive or not
 
@@ -27,3 +28,10 @@ bool ECS_is_entity_alive(ECS_Entity entity) {
     return entity >= 0 && entity < MAX_ENTITIES && entity_alive[entity];
 }
 
+void list_entities() {
+for (int i = 0; i < MAX_ENTITIES; i++) {
+	if ( entity_alive[i] == true) {
+		trace_log("entity %d alive\n", i);
+		};
+	}
+}
