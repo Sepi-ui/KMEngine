@@ -68,7 +68,7 @@ printf("Available video drivers:\n");
 		switch (event.type) {
 
 			case SDL_EVENT_QUIT:
-				SDL_Log ("SDL* Event quit");
+				SDL_Log ("SDL3 Event quit");
 				quit = 1;
 				break;
 
@@ -103,7 +103,7 @@ printf("Available video drivers:\n");
 
 	
 	SDL_RenderPresent(renderer);
-	SDL_Delay(16);
+	SDL_Delay(10);
 
 	};
 

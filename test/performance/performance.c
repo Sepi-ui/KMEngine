@@ -55,9 +55,9 @@ while (token != NULL) {
 }
 
 void register_all_tests() {
-	    register_test(1, "collision_test", collision_performance_test);
-	        register_test(2, "rendering_test", rendering_performance_test);
-		    register_test(3, "physics_test", physics_performance_test);
+	    register_test(1, "collision_test", PERF_collision_test);
+	        register_test(2, "rendering_test", PERF_rendering_test);
+		    register_test(3, "physics_test", PERF_physics_test);
 }
 
 

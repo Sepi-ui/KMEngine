@@ -14,13 +14,14 @@ void ECS_movement_system(float deltaTime) {
 	ECS_PositionComponent* position_component = ECS_get_position_component();
 	ECS_VelocityComponent* velocity_component = ECS_get_velocity_component();
 
-    for (ECS_Entity entity = 0; entity < MAX_ENTITIES; entity++) {
-       if (ECS_is_entity_alive(entity)) {
-       // Update only if the entity has both position and velocity components
-       position_component[entity].x += velocity_component[entity].vx * deltaTime;
-       position_component[entity].y += velocity_component[entity].vy * deltaTime;
-        }
-    }
+	for (ECS_Entity entity = 0; entity < MAX_ENTITIES; entity++) {
+		if (ECS_is_entity_alive(entity)) {
+		// Update only if the entity has both position and velocity components
+		position_component[entity].x += velocity_component[entity].vx * deltaTime;
+		position_component[entity].y += velocity_component[entity].vy * deltaTime;
+		//printf("Entity:%d Updated position:x%f, y%f",entity, position_component[entity].x, position_component[entity].y);
+        	}
+    	}
 }
 
 //Rendering System
@@ -30,7 +31,7 @@ void ECS_render_system(SDL_Renderer* renderer) {
 	SDL_GetRenderViewport(renderer, &currentViewport);
 	for (int i = 0; i < MAX_ENTITIES; i++) {
 	ECS_TextureComponent* textureComp = ECS_get_texture_component(i);
-	ECS_PositionComponent* posComp = ECS_get_position_component(i);
+	ECS_PositionComponent* posComp = ECS_get_position_component();
 	if (textureComp && posComp) {
 		//Convert int Data to floating Point for Rendering
 	
@@ -44,13 +45,12 @@ void ECS_render_system(SDL_Renderer* renderer) {
 
 		SDL_FRect dstFRect;
 		dstFRect = (SDL_FRect){
-		(float)posComp->x - currentViewport.x,
-		(float)posComp->y - currentViewport.y,
+		(float)posComp[i].x - currentViewport.x,
+		(float)posComp[i].y - currentViewport.y,
 		textureComp->dstRect.w,
 		textureComp->dstRect.h,
 		};
-	//printf("Entity %d position: (%f, %f)\n", i, posComp->x, posComp->y);
-
+		printf("Entity %d position: (%f, %f)\n", i, posComp[i].x, posComp[i].y);
 	
 		SDL_RenderTexture(renderer, textureComp->texture, &srcFRect, &dstFRect);
 		};

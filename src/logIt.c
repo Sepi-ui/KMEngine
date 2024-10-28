@@ -140,7 +140,7 @@ buffer->used += newEntrySize -1;//-1 to remove null terminator
 
 void write_buffer_to_file(LogBuffer* buffer, const char* filename) {
 
-FILE* file = fopen(filename, "w");
+FILE* file = fopen(filename, "a");
 	if (file == NULL) {
 	error_log("could not open Log file");
 	exit(EXIT_FAILURE);
